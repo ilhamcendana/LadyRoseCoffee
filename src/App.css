@@ -1,0 +1,22 @@
+.HOME{
+    animation:welcome .3s;
+}
+
+.Authentication{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+@keyframes welcome {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

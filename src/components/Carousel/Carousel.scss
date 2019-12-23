@@ -1,0 +1,31 @@
+.ant-carousel .slick-slide {
+    text-align: center;
+    height: 400px;    
+    background: #000;    
+    overflow: hidden;    
+  }    
+  
+  .ant-carousel .slick-slide h3 {
+    color: #fff;
+    text-shadow: 1px 2px 2px rgba($color: #000000, $alpha: .4);
+    width:250px;
+    font-size: 2em;
+  }
+
+  .carouselItem{      
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+  @media only screen and (min-width:769px){
+    .ant-carousel .slick-slide, .carouselItem{
+      height: 600px;
+    }   
+    
+    .ant-carousel .slick-slide h3 {
+      width: 500px !important;
+    }
+  }
