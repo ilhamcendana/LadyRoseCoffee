@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, message } from 'antd';
 import { useState } from 'react';
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 
 const Login = ({ loginFormChange, formLoginEmail, formLoginPassword }) => {
@@ -14,7 +16,19 @@ const Login = ({ loginFormChange, formLoginEmail, formLoginPassword }) => {
         e.preventDefault();
         if (formLoginEmail === '' || formLoginPassword === '') return message.warn('All fields must be filled!')
         setBtnLoading(true);
-        console.log(formLoginEmail, formLoginPassword)
+        firebase.auth().signInWithEmailAndPassword(formLoginEmail, formLoginPassword)
+            .then(() => {
+                message.loading('On proccess', .7)
+                    .then(() => {
+                        loginFormChange('formLoginEmail', '')
+                        loginFormChange('formLoginPassword', '')
+                        message.success(`Welcome and please wait a second!`, 1)
+                            .then(() => window.location.pathname = '/')
+                    })
+            })
+            .catch(err => {
+                message.error(err.message)
+            })
     }
     return (
         <div className="login">

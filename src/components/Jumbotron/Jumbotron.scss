@@ -1,0 +1,17 @@
+.Jumbotron{
+    width: 100%;
+    height: 400px;
+    background-color: rgb(182, 182, 182);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h3{
+        margin: 0;
+        color: #fff;
+        font-weight: bolder;
+        font-size: 2.5em;
+        text-shadow: 1px 2px 3px rgba($color: #000000, $alpha: .4);
+    }
+}

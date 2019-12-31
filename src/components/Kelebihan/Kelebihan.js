@@ -40,6 +40,7 @@ const Kelebihan = () => {
     return (
         <div className='kelebihan' style={{
             padding: '50px 0',
+            background: '#f7f6f2'
         }}>
             <div className='kelebihanContainer' style={{
                 display: 'flex',

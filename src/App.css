@@ -10,6 +10,38 @@
     justify-content: center;
 }
 
+.About{
+    min-height: 100vh;
+    animation:welcome .3s;
+}
+
+.Contact{
+    min-height: 100vh;
+    animation:welcome .3s;
+}
+
+.Admin{
+    min-height: 100vh;
+    width: 100%;
+    background-color: #3a3a3a;
+}
+.Admin .prevent{
+    display: none;
+}
+.Cart{
+    min-height: 100vh;
+    width: 100%;
+    animation:welcome .3s;
+}
+@media only screen and (max-width:769px){
+    .Admin .prevent{
+        display: flex !important;
+    }
+    .Admin .adminAuth{
+        display: none !important;
+    }
+}
+
 
 @keyframes welcome {
     from {

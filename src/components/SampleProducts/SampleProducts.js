@@ -1,7 +1,8 @@
 import React from 'react';
 import coffee from '../../assets/coffee.svg';
 import './SampleProducts.scss';
-import { Icon, Tooltip, Divider } from 'antd';
+import { Icon, Tooltip, Divider, Button } from 'antd';
+import { Link } from 'react-router-dom';
 
 const SampleProducts = () => {
     const sampleProductItems = [
@@ -38,9 +39,9 @@ const SampleProducts = () => {
     ]
     return (
         <div className='SampleProducts'>
-            <Divider />
             <h1>Get Your Coffee</h1>
             <p>bla bla bla bla bla bla</p>
+            <Divider />
 
             <div className="containerSample">
                 {sampleProductItems.map(item => (
@@ -55,6 +56,10 @@ const SampleProducts = () => {
                     </div>
                 ))}
             </div>
+
+            <Link style={{ marginTop: 100, }} to='/Shop'>
+                <Button type='primary' shape='round' style={{ boxShadow: '1px 2px 3px rgba(0,0,0,.4)' }} size='large'>MORE</Button>
+            </Link>
         </div>
     );
 }

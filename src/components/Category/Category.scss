@@ -1,0 +1,31 @@
+.Category{
+    width: 100%;
+    padding: 30px 15px;   
+    display: flex;
+    justify-content: space-between;    
+
+    .categoryItems{
+        border: 1px solid #929292;
+        width: 180px;
+        display: flex;
+        align-items: center;        
+        justify-content: center;
+        padding: 5px 0;
+        transition: .3s;
+        cursor: pointer;
+
+        p{
+            margin:0;
+        }
+    }
+}
+
+@media only screen and (min-width:769px){
+    .Category{
+        justify-content: center !important;
+
+        .categoryItems{
+            margin-right: 20px;
+        }
+    }   
+}

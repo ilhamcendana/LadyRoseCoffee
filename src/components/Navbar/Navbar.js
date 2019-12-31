@@ -1,17 +1,19 @@
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon, Popover, Popconfirm, Button } from 'antd';
 import './Navbar.scss';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import firebase from 'firebase/app';
+import 'firebase/auth'
 
 
-const Navbar = () => {
+const Navbar = ({ isAuth, usersData, cleanUsersData, cartTotal }) => {
 
     useEffect(() => {
         checkingScrollPos()
     }, []);
-
     //state
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const [isDropdownOpenWhite, setIsDropdownOpenWhite] = useState(false)
@@ -41,6 +43,43 @@ const Navbar = () => {
         }
     ]
 
+    const NavLinksAuth = [
+        {
+            title: 'HOME',
+            url: '/'
+        },
+        {
+            title: 'SHOP',
+            url: '/Shop'
+        },
+        {
+            title: 'ABOUT',
+            url: '/About'
+        },
+        {
+            title: 'CONTACT',
+            url: '/Contact'
+        },
+        {
+            title: `Hi, ${usersData.nama !== undefined ? usersData.nama.toUpperCase() : ''}`,
+            url: `/user/${usersData.nama !== undefined ? usersData.nama : ''}`,
+            user: 'user'
+        }
+    ]
+
+    const content = (
+        <div>
+            <Popconfirm title='Sure want to logout?' onConfirm={() => {
+                firebase.auth().signOut()
+                    .then(() => {
+                        cleanUsersData()
+                    })
+            }}>
+                <Button type='danger'>Logout</Button>
+            </Popconfirm>
+        </div>
+    )
+
     //func 
     const checkingScrollPos = () => {
         window.addEventListener('scroll', () => {
@@ -61,6 +100,7 @@ const Navbar = () => {
         setIsDropdownOpen(false)
         setIsDropdownOpenWhite(false)
     }
+
     return (
         <div className='Navbar'>
             <div className="bottomNavbar">
@@ -72,13 +112,19 @@ const Navbar = () => {
                 </div>
 
                 <div className="desktop-nav">
-                    {NavLinks.map(item => (
+                    {!isAuth ? NavLinks.map(item =>
                         <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>
-                    ))}
+                    ) : NavLinksAuth.map(item =>
+                        item.user === 'user' ?
+                            <Popover key={item.title} placement="bottom" content={content} trigger="click">
+                                <p className='userNameee'>{item.title}</p>
+                            </Popover>
+                            : <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>
+                    )}
 
                     <NavLink to='/cart' className="cart">
                         <Icon type='shopping-cart' />
-                        <p>0</p>
+                        <p>{cartTotal}</p>
                     </NavLink>
                 </div>
             </div>
@@ -92,38 +138,73 @@ const Navbar = () => {
                 </div>
 
                 <div className="desktop-nav-white">
-                    {NavLinks.map(item => (
-                        <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>
-                    ))}
+                    {!isAuth ?
+                        NavLinks.map(item => (
+                            <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>
+                        )) :
+                        NavLinksAuth.map(item =>
+                            item.user === 'user' ?
+                                <Popover key={item.title} placement="bottom" content={content} trigger="click">
+                                    <p className='userNameee'>{item.title}</p>
+                                </Popover>
+                                : <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>
+                        )}
 
                     <NavLink to='/cart' className="cart">
                         <Icon type='shopping-cart' />
-                        <p>0</p>
+                        <p>{cartTotal}</p>
                     </NavLink>
                 </div>
             </div>
 
             <div style={{ height: isDropdownOpen ? 290 : 0, padding: isDropdownOpen ? 15 : 0 }} className="mobile-dropdown-nav">
-                {NavLinks.map(item => (
+                {!isAuth ? NavLinks.map(item => (
                     <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>
-                ))}
+                )) :
+                    NavLinksAuth.map(item =>
+                        item.user === 'user' ?
+                            <Popover key={item.title} placement="bottom" content={content} trigger="click">
+                                <p className='userNameee'>{item.title}</p>
+                            </Popover>
+                            : <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>)}
                 <NavLink to='/cart' className="cart">
                     <Icon type='shopping-cart' />
-                    <p>0</p>
+                    <p>{cartTotal}</p>
                 </NavLink>
             </div>
 
             <div style={{ height: isDropdownOpenWhite ? 290 : 0, padding: isDropdownOpenWhite ? 15 : 0 }} className="mobile-dropdown-nav-white">
-                {NavLinks.map(item => (
+                {!isAuth ? NavLinks.map(item => (
                     <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>
-                ))}
+                ))
+                    :
+                    NavLinksAuth.map(item =>
+                        item.user === 'user' ?
+                            <Popover key={item.title} placement="bottom" content={content} trigger="click">
+                                <p className='userNameee'>{item.title}</p>
+                            </Popover>
+                            : <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>)}
                 <NavLink to='/cart' className="cart">
                     <Icon type='shopping-cart' />
-                    <p>0</p>
+                    <p>{cartTotal}</p>
                 </NavLink>
             </div>
         </div>
     );
 }
 
-export default Navbar;
+const storeToProps = state => {
+    return {
+        isAuth: state.isAuth,
+        usersData: state.usersData,
+        cartTotal: state.cartTotal
+    }
+}
+
+const disptachToStore = disptach => {
+    return {
+        cleanUsersData: () => disptach({ type: 'cleanUsersData' })
+    }
+}
+
+export default connect(storeToProps, disptachToStore)(Navbar);

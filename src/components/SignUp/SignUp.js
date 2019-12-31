@@ -4,6 +4,10 @@ import './SignUp.scss';
 import { Button, message } from 'antd';
 import { connect } from 'react-redux';
 import { useState } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+
 
 const SignUp = ({ signUpFormChange, formSignUpEmail, formSignUpPassword, formSignUpName }) => {
     const [btnLoading, setBtnLoading] = useState(false);
@@ -12,6 +16,25 @@ const SignUp = ({ signUpFormChange, formSignUpEmail, formSignUpPassword, formSig
         e.preventDefault();
         if (formSignUpEmail === '' || formSignUpPassword === '' || formSignUpName === '') return message.warn('All fields must be filled!')
         setBtnLoading(true);
+
+        firebase.auth().createUserWithEmailAndPassword(formSignUpEmail, formSignUpPassword)
+            .then(user => {
+                firebase.firestore().collection('users').doc(user.user.uid)
+                    .set({
+                        nama: formSignUpName,
+                        cart: []
+                    })
+                    .then(() => {
+                        setBtnLoading(false);
+                        signUpFormChange('formSignUpName', '');
+                        signUpFormChange('formSignUpEmail', '');
+                        signUpFormChange('formSignUpPassword', '');
+                    })
+            })
+            .catch(err => {
+                message.error(err.message)
+                setBtnLoading(false);
+            })
     }
     return (
         <div className="sign-up">
@@ -52,7 +75,8 @@ const storeToProps = (state) => {
 
 const dispatchFromStore = (dispatch) => {
     return {
-        signUpFormChange: (formSignUpName, formSignUpValue) => dispatch({ type: 'signUpFormChange', formSignUpName, formSignUpValue })
+        signUpFormChange: (formSignUpName, formSignUpValue) => dispatch({ type: 'signUpFormChange', formSignUpName, formSignUpValue }),
+
     }
 }
 
