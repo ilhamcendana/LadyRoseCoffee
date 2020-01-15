@@ -20,7 +20,7 @@ const Shop = () => {
 
     //func 
     const getAllProds = () => {
-        firebase.firestore().collection('products').where('category', '==', 'Coffee').orderBy("name").limit(10).get()
+        firebase.firestore().collection('products').where('category', '==', 'Coffee').orderBy("name").get()
             .then(snap => {
                 let getEach = []
                 snap.forEach(item => {
@@ -35,7 +35,7 @@ const Shop = () => {
 
     const changeCategory = (query) => {
         setAllProds([])
-        firebase.firestore().collection('products').where("category", '==', query).orderBy("name").limit(10).get()
+        firebase.firestore().collection('products').where("category", '==', query).orderBy("name").get()
             .then(snap => {
                 let getEach = []
                 if (snap.empty) return setAllProds(['none'])

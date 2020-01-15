@@ -1,8 +1,8 @@
 import React from 'react';
-import { Icon, Popover, Popconfirm, Button } from 'antd';
+import { Icon, Popover, Popconfirm, Button, message } from 'antd';
 import './Navbar.scss';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import firebase from 'firebase/app';
@@ -68,11 +68,15 @@ const Navbar = ({ isAuth, usersData, cleanUsersData, cartTotal }) => {
     ]
 
     const content = (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Link style={{
+                padding: 10,
+            }} to='/order'>My Order</Link>
             <Popconfirm title='Sure want to logout?' onConfirm={() => {
                 firebase.auth().signOut()
                     .then(() => {
                         cleanUsersData()
+                        window.location.pathname = '/'
                     })
             }}>
                 <Button type='danger'>Logout</Button>
@@ -122,10 +126,15 @@ const Navbar = ({ isAuth, usersData, cleanUsersData, cartTotal }) => {
                             : <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>
                     )}
 
-                    <NavLink to='/cart' className="cart">
-                        <Icon type='shopping-cart' />
-                        <p>{cartTotal}</p>
-                    </NavLink>
+                    {isAuth ?
+                        <NavLink to='/cart' className="cart">
+                            <Icon type='shopping-cart' />
+                            <p>{cartTotal}</p>
+                        </NavLink> :
+                        <div onClick={() => message.warn('Please sign in to see your cart')} className="wkwk">
+                            <Icon type='shopping-cart' />
+                            <p>{cartTotal}</p>
+                        </div>}
                 </div>
             </div>
 
@@ -150,10 +159,15 @@ const Navbar = ({ isAuth, usersData, cleanUsersData, cartTotal }) => {
                                 : <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>
                         )}
 
-                    <NavLink to='/cart' className="cart">
-                        <Icon type='shopping-cart' />
-                        <p>{cartTotal}</p>
-                    </NavLink>
+                    {isAuth ?
+                        <NavLink to='/cart' className="cart">
+                            <Icon type='shopping-cart' />
+                            <p>{cartTotal}</p>
+                        </NavLink> :
+                        <div onClick={() => message.warn('Please sign in to see your cart')} className="wkwk">
+                            <Icon type='shopping-cart' />
+                            <p>{cartTotal}</p>
+                        </div>}
                 </div>
             </div>
 
@@ -167,10 +181,15 @@ const Navbar = ({ isAuth, usersData, cleanUsersData, cartTotal }) => {
                                 <p className='userNameee'>{item.title}</p>
                             </Popover>
                             : <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>)}
-                <NavLink to='/cart' className="cart">
-                    <Icon type='shopping-cart' />
-                    <p>{cartTotal}</p>
-                </NavLink>
+                {isAuth ?
+                    <NavLink to='/cart' className="cart">
+                        <Icon type='shopping-cart' />
+                        <p>{cartTotal}</p>
+                    </NavLink> :
+                    <div onClick={() => message.warn('Please sign in to see your cart')} className="wkwk">
+                        <Icon type='shopping-cart' />
+                        <p>{cartTotal}</p>
+                    </div>}
             </div>
 
             <div style={{ height: isDropdownOpenWhite ? 290 : 0, padding: isDropdownOpenWhite ? 15 : 0 }} className="mobile-dropdown-nav-white">
@@ -184,10 +203,16 @@ const Navbar = ({ isAuth, usersData, cleanUsersData, cartTotal }) => {
                                 <p className='userNameee'>{item.title}</p>
                             </Popover>
                             : <NavLink onClick={backToTop} exact activeClassName='aktif' key={item.title} to={item.url}>{item.title}</NavLink>)}
-                <NavLink to='/cart' className="cart">
-                    <Icon type='shopping-cart' />
-                    <p>{cartTotal}</p>
-                </NavLink>
+
+                {isAuth ?
+                    <NavLink to='/cart' className="cart">
+                        <Icon type='shopping-cart' />
+                        <p>{cartTotal}</p>
+                    </NavLink> :
+                    <div onClick={() => message.warn('Please sign in to see your cart')} className="wkwk">
+                        <Icon type='shopping-cart' />
+                        <p>{cartTotal}</p>
+                    </div>}
             </div>
         </div>
     );

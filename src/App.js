@@ -18,6 +18,7 @@ import Admin from './containers/Admin';
 import AdminPage from './containers/AdminPage';
 import Shop from './containers/Shop';
 import Cart from './containers/Cart';
+import Order from './containers/Order';
 
 
 
@@ -77,6 +78,7 @@ const App = ({ isReady, setIsReady, setIsAuth, isAuth, setUsersData, cariTotalCa
           {isAuth ? null : <Route path='/auth/' render={() => <Authentication />} />}
           <Route exact path='/About' render={() => <About />} />
           <Route exact path='/Contact' render={() => <Contact />} />
+          <Route exact path='/order' render={() => <Order />} />
           {window.location.pathname === '/admin/lady-rose-coffee' || window.location.pathname === '/admin/' ? null : <Footer />}
         </div>
         :

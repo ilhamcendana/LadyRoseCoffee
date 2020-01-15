@@ -1,16 +1,19 @@
 import React from 'react';
 import './ProductShop.scss';
-import { Icon, Tooltip, Card, message } from 'antd';
+import { Icon, Tooltip, Card, message, Button } from 'antd';
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 import { connect } from 'react-redux';
+import { useState } from 'react';
 
 const ProductShop = ({ isAuth, ProductItems, changeCart, cariTotalCart }) => {
 
+    const [cartBtnLoading, setcartBtnLoading] = useState(false)
     //func
     const AddToCart = (id) => {
         if (isAuth) {
+            setcartBtnLoading(true)
             message.loading('adding to cart', () => {
                 const ref = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid)
                 let samaga = false
@@ -37,6 +40,7 @@ const ProductShop = ({ isAuth, ProductItems, changeCart, cariTotalCart }) => {
         })
         ref.set({ cart: sampleCart }, { merge: true })
             .then(() => {
+                setcartBtnLoading(false)
                 message.success('Added to cart')
                 changeCart('inc', { id: id, qty: 1 })
                 cariTotalCart()
@@ -51,6 +55,7 @@ const ProductShop = ({ isAuth, ProductItems, changeCart, cariTotalCart }) => {
         newSamplecart[index].qty = parseInt(newSamplecart[index].qty) + 1
         ref.set({ cart: newSamplecart }, { merge: true })
             .then(() => {
+                setcartBtnLoading(false)
                 message.success('Added to cart')
                 changeCart('tmbhQty', index)
                 cariTotalCart()
@@ -72,7 +77,7 @@ const ProductShop = ({ isAuth, ProductItems, changeCart, cariTotalCart }) => {
                                 <p className='desc'>{item.desc}</p>
                                 <p className="price">Rp{item.price}</p>
                                 <Tooltip title="Add to cart">
-                                    <Icon onClick={() => AddToCart(item.id)} className='shopping-cart' type='shopping-cart' />
+                                    <Button icon='shopping-cart' type='primary' shape='round' onClick={() => AddToCart(item.id)} loading={cartBtnLoading} ></Button>
                                 </Tooltip>
                             </div>
                         </div>

@@ -1,26 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import call from '../../assets/call.svg';
 import mail from '../../assets/mail.svg';
 import location from '../../assets/location.svg';
-import { Divider, BackTop } from 'antd';
+import { Divider, BackTop, message } from 'antd';
 import './Footer.scss';
+import { useEffect } from 'react';
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 const Footer = () => {
+    useEffect(() => {
+        firebase.firestore().collection('systems').doc('footer').get()
+            .then(snap => {
+                setSlogan(snap.data().slogan)
+            })
+            .catch(err => {
+                message.error(err.message)
+            })
 
-    const locationItems = [
-        {
-            icon: location,
-            text: '203 Fake St. Mountain View, San Francisco, California, USA'
-        }, {
-            icon: call,
-            text: '+2 392 3929 210'
-        },
-        {
-            icon: mail,
-            text: 'info@yourdomain.com'
-        }
-    ]
+        firebase.firestore().collection('systems').doc('contact').get()
+            .then(snap => {
+                setlocations(snap.data().address)
+                setcalls(snap.data().phone)
+                setmails(snap.data().email)
+            })
+            .catch(err => {
+                message.error(err.message)
+            })
+    }, [])
+
+    const [locations, setlocations] = useState('')
+    const [calls, setcalls] = useState('')
+    const [mails, setmails] = useState('')
+
+    const [slogan, setSlogan] = useState('Loading...')
     return (
         <div className='Footer'>
             <Divider />
@@ -29,7 +43,7 @@ const Footer = () => {
             <div className="infoFooter">
                 <div className="slogans">
                     <h3>Lady Rose Coffee</h3>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
+                    <p>{slogan}</p>
                 </div>
 
                 <div className="quickLinks">
@@ -46,12 +60,22 @@ const Footer = () => {
 
                 <div className="location">
                     <h3>Have a question?</h3>
-                    {locationItems.map(item => (
-                        <div key={item.text} className="locationItems">
-                            <img src={item.icon} alt="" />
-                            <p>{item.text}</p>
-                        </div>
-                    ))}
+                    <div className="locationItems">
+                        <img src={location} alt="" />
+                        <p>{locations}</p>
+                    </div>
+
+                    <div className="locationItems">
+                        <img src={call} alt="" />
+                        <p>{calls}</p>
+                    </div>
+
+                    <div className="locationItems">
+                        <img src={mail} alt="" />
+                        <p>{mails}</p>
+                    </div>
+
+
                 </div>
             </div>
             <p className='cpr'>Copyright ©{new Date().getFullYear()} All rights reserved | NAMA</p>

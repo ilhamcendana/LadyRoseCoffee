@@ -6,6 +6,9 @@ import { Route, Link } from 'react-router-dom';
 import AddProduct from '../components/AddProduct/AddProduct';
 import { useEffect } from 'react';
 import ProductAdmin from '../components/ProductAdmin/ProductAdmin';
+import AdminMessages from '../components/AdminMessages/AdminMessages';
+import System from '../components/System/System';
+import AdminOrders from '../components/AdminOrders/AdminOrders';
 
 const { Header, Content, Sider } = Layout;
 
@@ -48,9 +51,22 @@ const AdminPage = ({ }) => {
                                 <Icon type="laptop" />Add Product
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="sub3"><Icon type="database" />Systems</Menu.Item>
-                        <Menu.Item key="sub4"><Icon type="mail" />Messages</Menu.Item>
+                        <Menu.Item key="sub3">
+                            <Link to='/admin/lady-rose-coffee/system'>
+                                <Icon type="database" />Systems
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="sub4">
+                            <Link to='/admin/lady-rose-coffee/messages'>
+                                <Icon type="mail" />Messages
+                            </Link>
+                        </Menu.Item>
                         <Menu.Item key="sub5">
+                            <Link to='/admin/lady-rose-coffee/Orders'>
+                                <Icon type="dollar" />Orders
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="sub6">
                             <Popconfirm title='Are you sure want to log out?' onConfirm={() => firebase.auth().signOut().then(() => window.location.pathname = '/')}>
                                 <Icon type='logout' />
                                 Log Out
@@ -67,8 +83,11 @@ const AdminPage = ({ }) => {
                             minHeight: 280,
                         }}
                     >
-                        <Route render={() => <AddProduct />} path='/admin/lady-rose-coffee/add-product' />
-                        <Route render={() => <ProductAdmin />} path='/admin/lady-rose-coffee/' />
+                        <Route exact render={() => <AddProduct />} path='/admin/lady-rose-coffee/add-product' />
+                        <Route exact render={() => <ProductAdmin />} path='/admin/lady-rose-coffee/' />
+                        <Route exact render={() => <AdminMessages />} path='/admin/lady-rose-coffee/messages' />
+                        <Route exact render={() => <System />} path='/admin/lady-rose-coffee/system' />
+                        <Route exact render={() => <AdminOrders />} path='/admin/lady-rose-coffee/Orders' />
                     </Content>
                 </Layout>
             </Layout>

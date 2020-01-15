@@ -10,15 +10,14 @@
     }
 
     .sampleProductItem{        
-        min-height: 400px; 
+        height: 450px; 
         border: .1px solid #f0f0f0;  
         position: relative;
         width: 400px;   
         display: flex;  
         justify-content: space-evenly;  
         flex-direction: column;
-        align-items: center;
-        margin-top: 50px;
+        align-items: center;        
         transition: .3s;
 
         &:hover{
@@ -29,6 +28,7 @@
 
         img{
             width: 60%; 
+            height:250px ;
             transition: .3s;
             
             &:hover{
@@ -48,16 +48,25 @@
                 margin:0;
                 font-size: 14px;
             }
-            p{
+            .desc{
+                padding: 0 15px;
+                text-align: center;
+                font-size: 10px;
+                margin:5px 0;
+            }
+            .price{
                 color: #82ae46;
-                transition: .3s;
-                margin:0;
+                transition: .3s;                        
             }
             .shopping-cart{
-                color: #82ae46;                
+                background-color: #82ae46;                
+                color: #fff;
+                padding: 5px;
+                border-radius: 9px;
                 transition: .3s;
                 font-size: 1.5em;
                 cursor: pointer;
+                margin:10px 0;
             }
                         
         }

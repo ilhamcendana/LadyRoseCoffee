@@ -5,7 +5,7 @@
     flex-wrap: wrap;
 
     .sampleProductItem{        
-        min-height: 400px; 
+        height: 450px; 
         border: .1px solid #f0f0f0;  
         position: relative;
         width: 400px;   
@@ -23,6 +23,7 @@
 
         img{
             width: 60%; 
+            height:250px ;
             transition: .3s;
             
             &:hover{

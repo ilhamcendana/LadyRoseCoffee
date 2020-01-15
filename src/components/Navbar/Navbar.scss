@@ -91,7 +91,7 @@
         a.aktif{
             color: #fff;
         }
-        .cart{
+        .cart,.wkwk{
             background-color: #82ae46;
             display: flex;
             align-items: center;
@@ -126,7 +126,7 @@
         a.aktif{            
             color: #82ae46;
         }
-        .cart{
+        .cart,.wkwk{
             background-color: #82ae46;
             display: flex;
             align-items: center;
@@ -169,11 +169,12 @@
         a.aktif{
             color: #fff;
         }
-        .cart{
+        .cart,.wkwk{
             background-color: #82ae46;
             display: flex;
             align-items: center;
-            padding: 10px;            
+            padding: 10px;   
+            cursor: pointer;         
 
             i{
                 color: #fff;
@@ -201,7 +202,7 @@
         a.aktif{
             color: black;
         }
-        .cart{
+        .cart,.wkwk{
             background-color: #82ae46;
             display: flex;
             align-items: center;

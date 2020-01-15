@@ -1,0 +1,25 @@
+.System{
+
+    .itemn{
+        border: 1px solid #929292;
+        padding:  20px;
+        margin-bottom: 50px;
+        transition: .3s;
+        min-height: 100px;
+
+        h1{
+            font-weight: bold;
+            margin: 0;
+        }    
+        p{
+            color: #82ae46;
+
+            span{
+                font-weight: bold;
+            }
+        } 
+        .subTitle{
+            color: #333;
+        }   
+    }
+}

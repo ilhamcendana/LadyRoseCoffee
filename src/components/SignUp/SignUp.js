@@ -22,8 +22,8 @@ const SignUp = ({ signUpFormChange, formSignUpEmail, formSignUpPassword, formSig
                 firebase.firestore().collection('users').doc(user.user.uid)
                     .set({
                         nama: formSignUpName,
-                        cart: []
-                    })
+                        cart: [],
+                    }, { merge: true })
                     .then(() => {
                         setBtnLoading(false);
                         signUpFormChange('formSignUpName', '');
